@@ -2,4 +2,4 @@ api/.env
 api/__pycache__/
 .env
 venv/
-backend-main/backend/__pycache__/
+backend/__pycache__/
