@@ -291,7 +291,7 @@ class ExamPrepView(APIView):
         topic = data.get('topic')
         grade = data.get('gradeLevel')
         difficulty = data.get('difficulty', 'Intermediate')
-
+        rem = data.get('remarks')
         if not all([subject, topic, grade]):
             return Response({"error": "Missing required fields: subject, topic, and gradeLevel"}, 
                             status=status.HTTP_400_BAD_REQUEST)
@@ -299,7 +299,8 @@ class ExamPrepView(APIView):
         prompt = f"""
         Act as an expert tutor. Create a study guide for a {grade} student on {subject}: {topic}.
         Difficulty level: {difficulty}.
-        
+        Additional remarks: {rem if rem else 'None'}
+
         Return ONLY a JSON object with:
         1. keyConcepts: (list of strings)
         2. questions: (list of objects with 'id' and 'text')
