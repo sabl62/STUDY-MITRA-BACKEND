@@ -200,14 +200,27 @@ class StudySessionViewSet(viewsets.ModelViewSet):
             django_models.Q(participants=self.request.user)
         ).distinct().order_by('-started_at')
     
+# Inside StudySessionViewSet
+
+    @action(detail=True, methods=['post'])
+    def leave(self, request, pk=None):
+        """Allows any participant to remove themselves from the session"""
+        session = self.get_object()
+        if request.user in session.participants.all():
+            session.participants.remove(request.user)
+            return Response({"status": "You have left the session"}, status=200)
+        return Response({"error": "You are not a participant in this session"}, status=400)
+
     @action(detail=True, methods=['post'])
     def end_session(self, request, pk=None):
-        """Exposes the end_session logic to the API"""
+        """Strictly: Only the creator can end the session for everyone"""
         session = self.get_object()
         
-        # Check if the person trying to end it is the creator
         if session.creator != request.user:
-            return Response({"error": "Only the creator can end the session"}, status=403)
+            return Response(
+                {"error": "Permission denied. Only the creator can end the session."}, 
+                status=403
+            )
             
         session.is_active = False
         session.ended_at = timezone.now()
