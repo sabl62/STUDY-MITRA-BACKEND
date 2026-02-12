@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import (
@@ -21,7 +22,7 @@ router.register(r'notes', ConversationNoteViewSet, basename='note')
 router.register(r'userprofile', UserProfileViewSet, basename='userprofile')
 
 urlpatterns = [
-
+    path('ping/', lambda r: HttpResponse("OK"), name='check'), #to keep render server awake
     path('auth/register/', RegisterView.as_view(), name='register'),
     path('auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

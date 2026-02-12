@@ -27,9 +27,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 
-DEBUG = 'FALSE'
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+# Put your BACKEND domain or IP here
+ALLOWED_HOSTS = [
+    'study-mitra-backend.onrender.com', 
+    'localhost', 
+    '127.0.0.1'
+]
 
 
 # Application definition
@@ -64,7 +69,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'backend.urls'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5174", "http://localhost:5173", "http://localhost:5175"]
+    "http://localhost:5174", "http://localhost:5173", "http://localhost:5175", "https://studymitraa.netlify.app"]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -166,12 +172,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
 }
 # CORS settings
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-]
-
-CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 # Celery Configuration
@@ -214,5 +214,5 @@ CHANNEL_LAYERS = {
 # Firebase Admin SDK (for Firestore)
 FIREBASE_CREDENTIALS_PATH = os.getenv('FIREBASE_CREDENTIALS_PATH', '')
 
-# Anthropic API Key for AI features
+# GROQ API Key for AI features
 GROQ_API_KEY = os.getenv('GROQ_API_KEY', '')
